@@ -1,26 +1,169 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #090d16;
+  --foreground: #f8fafc;
+
+  /* Variáveis de Tema Padrão (Dark Theme Inicial) */
+  --theme-bg-page: #090d16;
+  --theme-bg-card: #0f172a;
+  --theme-bg-card-hover: #131d35;
+  --theme-bg-elevated: #1e293b;
+  --theme-bg-input: #070b12;
+  --theme-bg-glass: rgba(15, 23, 42, 0.85);
+
+  --theme-border-main: rgba(51, 65, 85, 0.8);
+  --theme-border-subtle: rgba(255, 255, 255, 0.08);
+  --theme-border-hover: rgba(236, 72, 153, 0.5);
+
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: #cbd5e1;
+  --theme-text-muted: #94a3b8;
+  --theme-text-dim: #64748b;
+
+  --theme-accent-pink: #ec4899;
+  --theme-accent-pink-soft: rgba(236, 72, 153, 0.15);
+  --theme-accent-pink-border: rgba(236, 72, 153, 0.3);
+
+  --theme-accent-amber: #f59e0b;
+  --theme-accent-amber-soft: rgba(245, 158, 11, 0.15);
+  --theme-accent-amber-border: rgba(245, 158, 11, 0.3);
+
+  --theme-accent-emerald: #10b981;
+  --theme-accent-emerald-soft: rgba(16, 185, 129, 0.15);
+  --theme-accent-emerald-border: rgba(16, 185, 129, 0.3);
+
+  --theme-accent-cyan: #06b6d4;
+  --theme-accent-cyan-soft: rgba(6, 182, 212, 0.15);
+  --theme-accent-cyan-border: rgba(6, 182, 212, 0.3);
+
+  --theme-modal-overlay: rgba(2, 6, 24, 0.85);
+  --theme-modal-bg: #0f172a;
+  --theme-card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  --theme-scrollbar-track: #0b0f19;
+  --theme-scrollbar-thumb: #273549;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--theme-bg-page);
+  color: var(--theme-text-secondary);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--theme-scrollbar-track, #0b0f19);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--theme-scrollbar-thumb, #273549);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-accent-pink, #ec4899);
+}
+
+/* Ocultar barra de rolagem onde necessário */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animações */
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.9;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2.5s infinite ease-in-out;
+}
+
+.animate-float {
+  animation: float 4s infinite ease-in-out;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* Glassmorphism Dinâmico */
+.glass-panel {
+  background: var(--theme-bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--theme-border-subtle);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-panel-glow {
+  background: var(--theme-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--theme-accent-pink-border);
+  box-shadow: 0 0 35px -5px var(--theme-accent-pink-soft);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Utilitários Dinâmicos de Tema */
+.bg-theme-page {
+  background-color: var(--theme-bg-page);
+}
+.bg-theme-card {
+  background-color: var(--theme-bg-card);
+}
+.bg-theme-elevated {
+  background-color: var(--theme-bg-elevated);
+}
+.bg-theme-input {
+  background-color: var(--theme-bg-input);
+}
+.border-theme-main {
+  border-color: var(--theme-border-main);
+}
+.border-theme-subtle {
+  border-color: var(--theme-border-subtle);
+}
+.text-theme-heading {
+  color: var(--theme-text-primary);
+}
+.text-theme-body {
+  color: var(--theme-text-secondary);
+}
+.text-theme-muted {
+  color: var(--theme-text-muted);
 }
